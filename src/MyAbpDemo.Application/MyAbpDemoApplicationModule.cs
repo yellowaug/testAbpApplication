@@ -5,7 +5,10 @@ using Abp.Authorization.Roles;
 using Abp.Authorization.Users;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
+using Abp.Hangfire;
+using Abp.Hangfire.Configuration;
 using Abp.Modules;
+using Hangfire;
 using MyAbpDemo.Authorization.Roles;
 using MyAbpDemo.Authorization.Users;
 using MyAbpDemo.Roles.Dto;
@@ -13,11 +16,15 @@ using MyAbpDemo.Users.Dto;
 
 namespace MyAbpDemo
 {
-    [DependsOn(typeof(MyAbpDemoCoreModule), typeof(AbpAutoMapperModule))]
+    [DependsOn(typeof(MyAbpDemoCoreModule), typeof(AbpAutoMapperModule), typeof(AbpHangfireModule))]
     public class MyAbpDemoApplicationModule : AbpModule
     {
         public override void PreInitialize()
         {
+            Configuration.BackgroundJobs.UseHangfire(configuration =>
+            {
+                configuration.GlobalConfiguration.UseSqlServerStorage("Default");
+            });
         }
 
         public override void Initialize()

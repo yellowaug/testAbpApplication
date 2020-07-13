@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
+using Hangfire;
 
 [assembly: OwinStartup(typeof(Startup))]
 
@@ -34,7 +35,7 @@ namespace MyAbpDemo.Web
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             app.MapSignalR();
-
+            app.UseHangfireDashboard();
             //ENABLE TO USE HANGFIRE dashboard (Requires enabling Hangfire in MyAbpDemoWebModule)
             //app.UseHangfireDashboard("/hangfire", new DashboardOptions
             //{
