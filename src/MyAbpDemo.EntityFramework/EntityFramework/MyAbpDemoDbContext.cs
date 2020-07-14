@@ -5,6 +5,7 @@ using Abp.Zero.EntityFramework;
 using MyAbpDemo.Authorization.Roles;
 using MyAbpDemo.Authorization.Users;
 using MyAbpDemo.MultiTenancy;
+using MyAbpDemo.TestAutomap;
 using MyAbpDemo.TestCache;
 
 namespace MyAbpDemo.EntityFramework
@@ -13,6 +14,7 @@ namespace MyAbpDemo.EntityFramework
     {
         //TODO: Define an IDbSet for your Entities...
         public IDbSet<TestTable> testTables { get; set; }
+        public IDbSet<TestCompany> TestCompanies { get; set; }
         /* NOTE: 
          *   Setting "Default" to base class helps us when working migration commands on Package Manager Console.
          *   But it may cause problems when working Migrate.exe of EF. If you will apply migrations on command line, do not

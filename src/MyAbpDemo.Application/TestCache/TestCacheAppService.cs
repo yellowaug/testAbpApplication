@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Domain.Repositories;
+using Abp.Json;
 using MyAbpDemo.TestCache.Dto;
 
 namespace MyAbpDemo.TestCache
@@ -12,9 +13,11 @@ namespace MyAbpDemo.TestCache
     public class TestCacheAppService : ITestCacheAppService
     {
         private readonly IRepository<TestTable> _testTablerepository;
-        public TestCacheAppService(IRepository<TestTable> testTablerepository)
+        private readonly AbpRedisManager abpRedis;
+        public TestCacheAppService(IRepository<TestTable> testTablerepository, AbpRedisManager abpRedis)
         {
             _testTablerepository = testTablerepository;
+            this.abpRedis = abpRedis;
         }
 
         public TestTableDto CreateTest(InputDto inputDto)
@@ -28,6 +31,8 @@ namespace MyAbpDemo.TestCache
             };
 
             var a=_testTablerepository.Insert(testTable);
+            var db = abpRedis.redisDb("10.12.2.61:6379");
+            db.StringSet("test1", testTable.ToJsonString());
             return new TestTableDto()
             {
                 FullName = a.FullName,
@@ -35,6 +40,7 @@ namespace MyAbpDemo.TestCache
                 Company = a.Company,
                 PhoneNum = a.PhoneNum
             };
+            
         }
 
         public TestTableDto Getdata(int id)

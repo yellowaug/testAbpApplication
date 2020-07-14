@@ -12,6 +12,10 @@ using Hangfire;
 using MyAbpDemo.Authorization.Roles;
 using MyAbpDemo.Authorization.Users;
 using MyAbpDemo.Roles.Dto;
+using MyAbpDemo.TestAutomap;
+using MyAbpDemo.TestAutomap.Dto;
+using MyAbpDemo.TestCache;
+using MyAbpDemo.TestCache.Dto;
 using MyAbpDemo.Users.Dto;
 
 namespace MyAbpDemo
@@ -48,6 +52,13 @@ namespace MyAbpDemo
 
                 cfg.CreateMap<CreateUserDto, User>();
                 cfg.CreateMap<CreateUserDto, User>().ForMember(x => x.Roles, opt => opt.Ignore());
+
+                cfg.CreateMap<CompanyInput, TestCompanyDto>();
+                cfg.CreateMap<TestCompanyDto, TestCompany>();
+
+                cfg.CreateMap<TestTable, TestTableCacheDto>()
+                .ForMember(u => u.PhoneNum, opts => opts.MapFrom(dto => dto.PhoneNum))
+                .ForMember(u => u.FullName, opts => opts.MapFrom(dto => dto.FullName));                
             });
         }
     }

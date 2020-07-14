@@ -33,7 +33,6 @@ namespace MyAbpDemo.Web
             });
            
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
-
             app.MapSignalR();
             app.UseHangfireDashboard();
             //ENABLE TO USE HANGFIRE dashboard (Requires enabling Hangfire in MyAbpDemoWebModule)
